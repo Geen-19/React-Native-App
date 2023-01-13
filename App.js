@@ -12,6 +12,7 @@ const HomeScreen = ({navigation}) => {
           itemId: 87,
           otherParam: 'Cool',
           imp: 'Important',
+          geen: {cool: 'Joel'},
         })
       }}
        />
@@ -20,12 +21,14 @@ const HomeScreen = ({navigation}) => {
 }
 function DetailsScreen({route , navigation}){
   const {itemId, otherParam, imp} = route.params;
+  const {cool} = route.params.geen;
   return(
     <View style = {styles.centering}>
         <Text>Details</Text>
         <Text>ItemId: {JSON.stringify(itemId)} </Text>
         <Text>Param: {JSON.stringify(otherParam)}</Text>
         <Text>Fact: {JSON.stringify(imp)} </Text>
+        <Text>Author Name: {JSON.stringify(cool)}</Text>
         <Button 
         title='Go to details again'
         onPress={() => navigation.push('Details')}/>
@@ -41,7 +44,7 @@ function App() {
   <NavigationContainer>
     <Stack.Navigator>
     <Stack.Screen name='Home' component={HomeScreen} /> 
-    <Stack.Screen name='Details' component={DetailsScreen}/>
+    <Stack.Screen name='Details' component={DetailsScreen} initialParams = {{itemId: 54}}/>
     </Stack.Navigator>
   </NavigationContainer>
   );
