@@ -8,15 +8,24 @@ const HomeScreen = ({navigation}) => {
       <Text>Hello World</Text>
       <Button
         title='Go to details'
-        onPress={() => navigation.navigate('Details')}
+        onPress={() => {navigation.navigate('Details', {
+          itemId: 87,
+          otherParam: 'Cool',
+          imp: 'Important',
+        })
+      }}
        />
     </View>
   );
 }
-function DetailsScreen({navigation}){
+function DetailsScreen({route , navigation}){
+  const {itemId, otherParam, imp} = route.params;
   return(
     <View style = {styles.centering}>
         <Text>Details</Text>
+        <Text>ItemId: {JSON.stringify(itemId)} </Text>
+        <Text>Param: {JSON.stringify(otherParam)}</Text>
+        <Text>Fact: {JSON.stringify(imp)} </Text>
         <Button 
         title='Go to details again'
         onPress={() => navigation.push('Details')}/>
