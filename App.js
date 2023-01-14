@@ -1,27 +1,28 @@
-import * as React from 'react';
+import {useState} from 'react';
 import {Button, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { TextInput } from 'react-native-gesture-handler';
 const HomeScreen = ({navigation}) => {
   return (
     <View style = {styles.centering} >
       <Text>Hello World</Text>
       <Button
-        title='Go to details'
-        onPress={() => {navigation.navigate('Details', {
-          itemId: 87,
-          otherParam: 'Cool',
-          imp: 'Important',
-          geen: {cool: 'Joel'},
-        })
-      }}
-       />
+        title="Go to Profile"
+        onPress={() =>
+          navigation.navigate('Details', { name: 'Custom profile header' }, 
+          {
+          itemId: '69',
+          otherParam : 'I am 6ft',
+          fact: 'Geen',
+          cool : 'React'})
+        }
+      />
     </View>
   );
 }
 function DetailsScreen({route , navigation}){
-  const {itemId, otherParam, imp} = route.params;
-  const {cool} = route.params.geen;
+  const {itemId, otherParam, imp, cool} = route.params;
   return(
     <View style = {styles.centering}>
         <Text>Details</Text>
@@ -30,11 +31,9 @@ function DetailsScreen({route , navigation}){
         <Text>Fact: {JSON.stringify(imp)} </Text>
         <Text>Author Name: {JSON.stringify(cool)}</Text>
         <Button 
-        title='Go to details again'
-        onPress={() => navigation.push('Details')}/>
-        <Button
-        title = 'Go Back'
-        onPress = {() => navigation.popToTop('Home')}  />
+        title='Go Back'
+        onPress={() => navigation.navigate('Home')}/>
+      
     </View>
   );
 }
@@ -43,8 +42,9 @@ function App() {
   return(
   <NavigationContainer>
     <Stack.Navigator>
-    <Stack.Screen name='Home' component={HomeScreen} /> 
-    <Stack.Screen name='Details' component={DetailsScreen} initialParams = {{itemId: 54}}/>
+    <Stack.Screen name='Home' component={HomeScreen} options = {{title: 'My Home'}} /> 
+    <Stack.Screen name='Details' component={DetailsScreen} initialParams = {{itemId: 54}} 
+    options = {({route}) => ({title: route.params.name})}/>
     </Stack.Navigator>
   </NavigationContainer>
   );
