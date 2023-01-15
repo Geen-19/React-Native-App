@@ -1,17 +1,10 @@
+import 'react-native-gesture-handler';
 import {useState, useEffect} from 'react';
 import {Button, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { TextInput } from 'react-native-gesture-handler';
-const HomeScreen = ({navigation}) => {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Button onPress={() => setCount((c) => c+1)} title = 'update count' />
-      ),
-    });
-  }, [navigation,setCount]);
+import { createDrawerNavigator } from '@react-navigation/drawer';
+const HomeScreen = ({navigation}) => { 
   return (
     <View style = {styles.centering} >
       <Text>Hello World</Text>
@@ -27,6 +20,18 @@ const HomeScreen = ({navigation}) => {
         }
       />
       <Text>Count: {count}</Text>
+     <Button
+        onPress={() => navigation.navigate('Notifications')}
+        title="Go to notifications"
+      />
+    </View>
+  );
+}
+function NotificationScreen({navigation}) {
+  return(
+    <View style = {styles.centering}>
+      <Button onPress={() => navigation.goBack()}
+      title = 'Go back home'/>
     </View>
   );
 }
@@ -48,9 +53,14 @@ function DetailsScreen({route , navigation}){
 }
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 function App() {
   return(
   <NavigationContainer>
+    <Drawer.Navigator initialRouteName='Home'>
+      <Drawer.Screen name='Home' component={HomeScreen} />
+      <Drawer.Screen name='Notifications' component={NotificationScreen} />
+    </Drawer.Navigator>
     <Stack.Navigator 
     screenOptions={{title: 'My Home',
     headerStyle: {
@@ -68,7 +78,7 @@ function App() {
         <Button title="Update count" />
       ),
     })}
-    /> 
+    />
     <Stack.Screen name='Details' component={DetailsScreen} initialParams = {{itemId: 54}} 
     options = {({route}) => ({title: route.params.name})}/>
     </Stack.Navigator>
@@ -78,7 +88,7 @@ function App() {
 // Logo for header
 const styles = StyleSheet.create({
   centering: {
-    flex: 1,
+    flex: flex-start,
     alignItems: 'center',
     justifyContent: 'center',
   },
